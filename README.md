@@ -1,4 +1,4 @@
-# 🛡️ Code Sentinel AI — BYOK Code Review Assistant
+# 🛡️ ASTraGuard — BYOK Code Review Assistant
 
 > Multi-LLM Bring-Your-Own-Key (BYOK) SAST & Generative AI Code Review Auditor for Java and Python (Problem Code: **JP-003**).
 

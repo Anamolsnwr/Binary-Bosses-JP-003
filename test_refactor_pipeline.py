@@ -1,6 +1,10 @@
 """
 Verification script for the Refactor & Auto-Debug logic in Code Sentinel AI.
 """
+import sys
+if hasattr(sys.stdout, "reconfigure"):
+    sys.stdout.reconfigure(encoding="utf-8")
+
 from core.repo_cloner import get_offline_demo_path
 from core.static_scanner import analyze_repository, get_codebase_verbal_rating
 from core.ai_patcher import generate_ai_remediation

@@ -92,18 +92,18 @@ ENHANCED_AUDIT_PROMPT_TEMPLATE = """You are a high-speed, dual-engine Static Ana
 ### MANDATORY JSON OUTPUT SCHEMA
 
 {{
+  "summary": "Brief overall audit summary",
   "health_score": 85,
-  "summary": "Concise 1-sentence audit summary.",
   "detailed_findings": [
     {{
-      "rule_id": "RULE_ID",
-      "category": "Security | Quality | Performance | Maintainability",
-      "line_no": 0,
-      "title": "Short Descriptive Title",
-      "severity": "Critical | High | Medium | Low",
-      "explanation": "Maximum 2 sentences explaining why this is problematic.",
-      "before_code": "Exact flawed code line",
-      "after_code": "Exact fixed replacement line"
+      "rule_id": "QUAL001",
+      "category": "Quality",
+      "line_no": 12,
+      "title": "Short descriptive title",
+      "severity": "Medium",
+      "explanation": "Clear explanation of why this pattern is problematic.",
+      "before_code": "Single or multi-line snippet showing the flawed code",
+      "after_code": "Refactored, production-ready code replacement"
     }}
   ]
 }}

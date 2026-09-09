@@ -1,5 +1,5 @@
 """
-Code Sentinel AI - BYOK Multi-LLM Code Review & Security Auditor
+ASTraGuard - BYOK Multi-LLM Code Review & Security Auditor
 Intelligent SAST + Generative AI Code Review Assistant (Problem Code: JP-003)
 """
 import os
@@ -24,7 +24,7 @@ from core.service import default_audit_service
 
 # Page Configuration
 st.set_page_config(
-    page_title="Code Sentinel AI | Intelligent Code Auditor",
+    page_title="ASTraGuard | Intelligent Code Auditor",
     page_icon="🛡️",
     layout="wide",
     initial_sidebar_state="expanded"
@@ -633,7 +633,7 @@ with st.sidebar:
         <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 6px;">
             <div style="font-size: 2rem; line-height: 1; filter: drop-shadow(0 0 10px rgba(99, 102, 241, 0.4));">🛡️</div>
             <div>
-                <div style="font-size: 1.28rem; font-weight: 900; color: #f8fafc; letter-spacing: -0.02em; line-height: 1.15;">Code Sentinel</div>
+                <div style="font-size: 1.28rem; font-weight: 900; color: #f8fafc; letter-spacing: -0.02em; line-height: 1.15;">ASTraGuard</div>
                 <div style="font-size: 0.72rem; font-weight: 800; color: #38bdf8; letter-spacing: 0.08em; text-transform: uppercase;">AST & AI Defense Hub</div>
             </div>
         </div>
@@ -1025,7 +1025,7 @@ if not st.session_state.analysis_results:
             </span>
         </div>
         <h1 class="hero-title">
-            Code Sentinel AI
+            ASTraGuard
         </h1>
         <p class="hero-sub">
             Enterprise-grade static security analysis and AST logic auditing with verified, drop-in before/after AI refactorings for entire repositories and individual source files.
@@ -1277,7 +1277,7 @@ def execute_dynamic(user_input):
                     🔍 Live Detection & AI Remediation Preview
                 </div>
                 <div style="font-size: 0.88rem; color: #94a3b8;">
-                    Inspect how Code Sentinel AI identifies critical flaws, flags line numbers, and generates copy-paste drop-in patches:
+                    Inspect how ASTraGuard identifies critical flaws, flags line numbers, and generates copy-paste drop-in patches:
                 </div>
             </div>
             <span style="font-size: 0.76rem; font-weight: 800; color: #f87171; background: rgba(239, 68, 68, 0.16); border: 1px solid rgba(239, 68, 68, 0.35); padding: 4px 14px; border-radius: 20px; text-transform: uppercase;">
@@ -2234,13 +2234,13 @@ else:
 
 # ================= EXPORT REPORT =================
 if is_pasted_snippet:
-    report_title = "# 🛡️ Code Sentinel AI — Pasted Code Audit Report"
+    report_title = "# 🛡️ ASTraGuard — Pasted Code Audit Report"
     target_line_text = f"**Audited Snippet:** `{active_target_file}`"
 elif active_scope == "file":
-    report_title = "# 🛡️ Code Sentinel AI — Single File Audit Report"
+    report_title = "# 🛡️ ASTraGuard — Single File Audit Report"
     target_line_text = f"**Target File:** `{active_target_file}` (in `{st.session_state.repo_display_name}`)"
 else:
-    report_title = "# 🛡️ Code Sentinel AI — Repository Audit Report"
+    report_title = "# 🛡️ ASTraGuard — Repository Audit Report"
     target_line_text = f"**Repository:** `{st.session_state.repo_display_name}`"
 
 report_lines = [
