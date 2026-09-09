@@ -19,6 +19,8 @@ from core.repo_cloner import (
 )
 from core.static_scanner import analyze_repository, get_codebase_verbal_rating
 from core.ai_patcher import generate_ai_remediation, _get_offline_heuristic_fix, enrich_code_audit
+from core.security import SecureCredentialStore, SecretScrubber, SSRFGuard
+from core.service import default_audit_service
 
 # Page Configuration
 st.set_page_config(
@@ -556,17 +558,9 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
-# Persistent BYOK Settings Helper
-SETTINGS_FILE = os.path.join(os.path.dirname(__file__), ".byok_settings.json")
-
+# Secure Machine-Bound BYOK Credential Store (Zero Plaintext on Disk)
 def load_saved_byok_settings() -> dict:
-    if os.path.exists(SETTINGS_FILE):
-        try:
-            with open(SETTINGS_FILE, "r", encoding="utf-8") as f:
-                return json.load(f)
-        except Exception:
-            return {}
-    return {}
+    return SecureCredentialStore.load_credentials()
 
 def save_byok_settings(
     provider: str,
@@ -590,9 +584,7 @@ def save_byok_settings(
             existing["github_url"] = github_url
         if github_token:
             existing["github_token"] = github_token
-        with open(SETTINGS_FILE, "w", encoding="utf-8") as f:
-            json.dump(existing, f, indent=2)
-        return True
+        return SecureCredentialStore.save_credentials(existing)
     except Exception:
         return False
 
@@ -603,20 +595,12 @@ def save_github_url(github_url: str, github_token: str = "") -> bool:
         if github_token:
             existing["github_token"] = github_token
         existing["updated_at"] = datetime.now().isoformat()
-        with open(SETTINGS_FILE, "w", encoding="utf-8") as f:
-            json.dump(existing, f, indent=2)
-        return True
+        return SecureCredentialStore.save_credentials(existing)
     except Exception:
         return False
 
 def clear_saved_byok_settings() -> bool:
-    if os.path.exists(SETTINGS_FILE):
-        try:
-            os.remove(SETTINGS_FILE)
-            return True
-        except Exception:
-            return False
-    return True
+    return SecureCredentialStore.clear_credentials()
 
 # Session state initialization
 if "analysis_results" not in st.session_state:
@@ -887,6 +871,10 @@ with st.sidebar:
         default_endpoint = "http://localhost:11434/v1" if llm_provider == "Ollama / Local LLM" else "http://localhost:8000/v1"
         endpoint_val = saved_endpoint if (saved_provider == llm_provider and saved_endpoint) else default_endpoint
         custom_endpoint_url = st.text_input("API Base URL", value=endpoint_val)
+        if custom_endpoint_url and custom_endpoint_url.strip():
+            is_valid_url, url_err = SSRFGuard.validate_endpoint(custom_endpoint_url.strip(), allow_localhost=True)
+            if not is_valid_url:
+                st.error(f"🛡️ SSRF Guard Alert: {url_err}")
 
     # Lookup env key defaults
     env_map = {
