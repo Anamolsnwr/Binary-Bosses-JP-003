@@ -1,0 +1,9 @@
+# Local Environment & BYOK Settings
+.byok_settings.json
+.env
+venv/
+__pycache__/
+*.pyc
+
+# Cloned temporary repos
+codesentinel_*
